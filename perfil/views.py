@@ -1,6 +1,9 @@
-from django.shortcuts import render 
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Conta
+from django.contrib import messages
+from django.contrib.messages import constants
+
 # função home recebe a request do usuário e retorna uma response 
 def home(request):
     return render(request, 'home.html')
@@ -16,5 +19,23 @@ def cadastrar_banco(request):
     tipo = request.POST.get('tipo')
     valor = request.POST.get('valor')
     icone = request.FILES.get('icone')
-    return HttpResponse(f'{apelido} {banco} {tipo} {valor} {icone}')
+
+    if len(apelido.strip()) == 0 or len(valor.strip()) == 0:
+        messages.add_message(request, constants.ERROR, 'Preencha todos os campos')
+        return redirect('/perfil/gerenciar/')
+    
+    # serve para criar uma referência para a model
+    conta = Conta(
+        apelido = apelido,
+        banco = banco, 
+        tipo = tipo, 
+        valor = valor, 
+        icone = icone,
+    )
+    
+    # efetiva nova conta criada no banco de dados
+    conta.save()
+
+    messages.add_message(request, constants.SUCCESS, 'Conta cadastrada com sucesso')
+    return redirect('/perfil/gerenciar/')
 
