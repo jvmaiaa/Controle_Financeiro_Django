@@ -1,3 +1,4 @@
+# A Views comunica com as models e com o template para dar a response
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Conta, Categoria
@@ -5,7 +6,7 @@ from django.contrib import messages
 from django.contrib.messages import constants
 from .utils import calcula_total
 
-# função home recebe a request do usuário e retorna uma response 
+# função home recebe a request do usuário, processa as informações e retorna uma response 
 def home(request):
     contas = Conta.objects.all()
 

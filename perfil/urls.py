@@ -4,6 +4,7 @@ from . import views
 # informa quais links vao ser passados para url do projeto
 # url redireciona o usuário para uma views
 urlpatterns = [
+# No campo 'views.home' indica que o nome da função que terá na views, será home
     path('home/', views.home, name='home'),
     path('gerenciar/', views.gerenciar, name='gerenciar'),
     path('cadastrar_banco/', views.cadastrar_banco, name='cadastrar_banco'),
